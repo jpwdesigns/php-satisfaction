@@ -9,7 +9,7 @@ require_once("Satisfaction.php");
 
 require_once("HTTP_Request_Oauth.php");
 
-$sfn_root = "http://community.yourdomain.com/"; 
+$sfn_root = "http://community.yourdomain.com/"; // or if not using cname then whatever your getsatisfaction company url is
 
 $method = 'POST'; 
 
