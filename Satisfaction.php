@@ -505,12 +505,19 @@ function oauthed_request($consumer_data, $method, $url, $creds, $req_params, $qu
   $req_params['consumer_key'] = $consumer_data['key'];
   $req_params['consumer_secret'] = $consumer_data['secret'];
   $req_params['signature_method'] = 'HMAC-SHA1';
-  $req_params['timeout'] = $oauth_request_timeout;
+  $req_params['timeout'] = 60;
   message("Sending $method request to $url");
   $req = new HTTP_Request_Oauth($url, $req_params);  # TBD: set timeout
-  foreach ($query_params as $name => $val) {
-    $req->addParam($name, $val);
+  if (is_array($query_params)) {
+      $req->addHeader('Content-Type', 'application/x-www-form-urlencoded');
+      foreach ($query_params as $name => $val) {
+        $req->addParam($name, $val);
+      }
+  } else {
+    $req->addHeader('Content-Type', 'application/json');
+    $req->setBody($query_params);
   }
+  
   $resp = $req->sendRequest(true, true);
   if (!$resp) throw new Exception("$method request to $url failed.");
   return $req;
@@ -524,7 +531,7 @@ function get_oauth_request_token($consumer_data) {
                            'consumer_secret' => $consumer_data['secret'],
                            'signature_method' => 'HMAC-SHA1',
                            'method' => 'GET'));
-  $resp = $oauth_req->sendRequest(true, true);
+  $resp = @$oauth_req->sendRequest(true, true);
   list($token, $secret) = $oauth_req->getResponseTokenSecret();
   return array($token, $secret);
 }
