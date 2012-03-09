@@ -6,12 +6,17 @@ This is just a collection of the PHP files needed to use the Get Satisfaction AP
 Example usage
 ------------------
 require_once("Satisfaction.php");
+
 require_once("HTTP_Request_Oauth.php");
 
-$sfn_root = "http://community.yourdomain.com/";
-$method = 'POST';
-$req_params = array();
-$query_params = array();
+$sfn_root = "http://community.yourdomain.com/"; 
+
+$method = 'POST'; 
+
+$req_params = array(); 
+
+$query_params = array(); 
+
 $consumer_data = array(
     'key' => 'yourkey',
     'secret' => 'yoursecret'
