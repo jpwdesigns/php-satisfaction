@@ -103,6 +103,10 @@
         */
         function sendRequest($saveBody=true, $authHeader=false)
         {
+            if (!$this->_requestHeaders['content-type']) {
+                $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
+            }
+            
             $this->sign($authHeader);
 
             $r = HTTP_Request::sendRequest($saveBody);
